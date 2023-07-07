@@ -132,13 +132,11 @@ const Create = (props) => {
         })
         .then(
           (res) => {
-            //console.log(res);
             return res.json()
           }
         )
         .then(
           (data)=>{ 
-  
           }
         )
         .catch(
