@@ -3,76 +3,52 @@ import './App.css';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
+const useFetch = (uri) => {
+    const [retData, setRetData] = useState([])
+
+    useEffect( () => {
+        fetch(uri)
+        .then(
+            (res) => {
+                return res.json();
+            }
+        )
+        .then(
+            (data) => {
+                setRetData(data)
+            }
+        )
+
+    }, [uri]) 
+
+   
+    return retData;
+}
+
 const Index = () => {
+    const data = useFetch("http://localhost:3001/towork")
+    console.log(data)
 
-  const [ret, SetRet] = useState('');
-
-  useEffect( () => {
-    fetch("http://localhost:3001/towork")
-    .then( (res) => {
-      //console.log(res);
-      return res.json();
-    })
-    .then( (data) => {
-      //console.log(data);
-      SetRet( data.map( (xx) => {return ( <Link key={xx.id} to={`/work/${xx.id}`} ><span >{xx.id}</span></Link> )}) )
-    })
-    .catch( (err) => {
-      console.log(err);
-    })
+    const ret = data.map( (xx) => { return <Link to={`/work/${xx.id}`}><span>{xx.id}</span></Link> } )
 
     return (
-      () => {   }
+        <>
+            {ret}
+        </>
     )
-
-  }, [])
-
-
-  return (
-    <>
-      {ret}
-    </>
-  )
 }
 
 const DispPage = () => {
-  const pageId = Number( useParams().id )
-  //console.log(pageId);
+    const pageId = Number( useParams().id )
+    //console.log(pageId);
 
-  const [ret, SetRet] = useState('');
+    const data = useFetch(`http://localhost:3001/towork/${pageId}`)
 
-  useEffect( () => {
-    fetch(`http://localhost:3001/towork/${pageId}`)
-    .then(
-      (res) => {
-        //console.log(res);
-        return res.json()
-      }
-    )
-    .then(
-      (data)=>{ 
-        SetRet( 
-          <div>
-             <span>id : {data.id}</span><span>title : {data.title}</span><span>detail : {data.detail}</span>
-          </div>
-        )
-      }
-    )
-    .catch(
-      (err) => {
-        console.log(err);
-      }
-    )
-      
+    const ret = <div>id : {data.id}  title : {data.title}  detail : {data.detail }</div>
+
     return (
-      () => {   }
+        <>{ret}</>
     )
-
-  }, [pageId] )
-
-  return (
-    <>{ret}</>
-  )
 }
 
 function ExampleComponent() {
