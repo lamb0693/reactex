@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, useParams, useNavigate } from 'react-rout
 import './App.css';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { TestTS } from './TestTs.tsx';
 
 const useFetch = (uri) => {
     const [retData, setRetData] = useState([])
@@ -29,7 +30,7 @@ const Index = () => {
     const data = useFetch("http://localhost:3001/towork")
     console.log(data)
 
-    const ret = data.map( (xx) => { return <Link to={`/work/${xx.id}`}><span>{xx.id}</span></Link> } )
+    const ret = data.map( (xx) => { return <Link key={xx.id} to={`/work/${xx.id}`}><span>{xx.id}</span></Link> } )
 
     return (
         <>
@@ -142,6 +143,7 @@ function App() {
         <div className="App">
           <header className="App-header">
             <h1>Header Area</h1>
+            <TestTS></TestTS>
           </header>
           <Routes>
             <Route path={"/"} element={<Index />} />
@@ -151,6 +153,7 @@ function App() {
                  setCreateModeOff={setCreateModeOff} />} />
           </Routes>
             {!onCreate && <div><Link to={"/create"} >Create New</Link></div>}
+            
         </div>
     
     </BrowserRouter>
