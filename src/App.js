@@ -191,6 +191,7 @@ const reducer = (state, action) => {
                 modifyMember={() => dispatch1({type:MESS.MOD, payload:members})}   
                 delMember={() => dispatch1({type:MESS.DEL, payload:members})}              
             ></ReducerObject> 
+
           </header>
           <Routes>
             <Route path={"/"} element={<Index />} />
